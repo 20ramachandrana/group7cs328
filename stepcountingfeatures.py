@@ -137,3 +137,74 @@ def compute_minimum_features(r):
     # filt_sig = filter_signal(r)[2]
     filt_sig = r
     return [np.amin(filt_sig), np.amin(filt_sig), np.amin(filt_sig)]
+
+def compute_mean_features(r):
+    """
+    Computes the mean x, y and z acceleration over the given window. 
+    """
+    return np.mean(r, axis=0)
+
+def extract_features(window):
+    """
+    Here is where you will extract your features from the data over 
+    the given window. We have given you an example of computing 
+    the mean and appending it to the feature vector.
+
+    """
+
+    x = []
+    feature_names = []
+    
+    #mean features
+    x.append(compute_mean_features(window))
+    feature_names.append("x_mean")
+    feature_names.append("y_mean")
+    feature_names.append("z_mean")
+
+    
+    # variance features
+
+    x.append(compute_variance_features(window))
+    feature_names.append("x_variance")
+    feature_names.append("y_variance")
+    feature_names.append("z_variance")
+    
+
+
+    # maximum features
+    x.append(compute_maximum_features(window))
+    feature_names.append("x_max")
+    feature_names.append("y_max")
+    feature_names.append("z_max")
+
+ 
+    # minimum features
+    x.append(compute_minimum_features(window))
+    feature_names.append("x_min")
+    feature_names.append("y_min")
+    feature_names.append("z_min")
+
+
+    # TODO: call functions to compute other features. Append the features to x and the names of these features to feature_names
+
+    #x.append(_compute_fft_features(window))
+    #feature_names.append("x_dominate_freq")
+    #feature_names.append("y_dominant_freq")
+    #feature_names.append("z_dominant_freq")
+
+
+
+    #x.append(_compute_peak_count_feature(window))
+    #feature_names.append("x_peak_count")
+    #feature_names.append("y_peak_count")
+    #feature_names.append("z_peak_count")
+
+
+
+    x.append(getEntropy(window))
+    feature_names.append("x_entropy")
+    feature_names.append("y_entropy")
+    feature_names.append("z_entropy")
+
+    feature_vector = np.concatenate(x, axis=0) # convert the list of features to a single 1-dimensional vector
+    return feature_names, feature_vector

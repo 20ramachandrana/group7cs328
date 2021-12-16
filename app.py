@@ -8,6 +8,7 @@ from flask_session import Session
 import time
 import psycopg2
 import os
+from stepcountingfeatures import *
 
 # the app we use to manage the routes and run the app
 app = Flask(__name__)
@@ -120,6 +121,47 @@ def data():
     con.commit()
     con.close()
     return "<p>user not found</p>"
+
+@app.route('/steps')
+def steps():
+    DATABASE_URL = os.environ.get('DATABASE_URL')
+    con = psycopg2.connect(DATABASE_URL)
+    cur = con.cursor()
+    u = request.args.get('u')
+    try:
+        cur.execute("""
+        SELECT *  FROM users WHERE username = %s;        
+        """, (u,))
+    except Exception:
+        cur.execute("rollback")
+        cur.execute("""
+        CREATE TABLE users (
+            username TEXT NOT NULL PRIMARY KEY,
+            time FLOAT[],
+            accx FLOAT[],
+            accy FLOAT[],
+            accz FLOAT[]
+        );
+        """)
+        cur.execute("""
+        SELECT *  FROM users WHERE username = %s;        
+        """, (u,))
+    user = cur.fetchone()
+    if not user is None:
+        accx = np.array(user[2])
+        accy = np.array(user[3])
+        accz = np.array(user[4])
+        tim = np.array(tim)-tim[0]
+        steps = filtSignal(accx, accy, accz, tim)[3]
+        bpm = 60*steps/(tim[-1]-tim[0])
+        con.commit()
+        con.close()
+        return "<marquee>Steps: "+steps+"<br> BPM We Search With: "+bpm+"</marquee>"
+    else:
+        con.commit()
+        con.close()
+        return "<p>user not found</p>"
+
 # runs our app using Flask
 if __name__ == "__main__":
     app.run(debug = True)

@@ -19,14 +19,21 @@
                 if (response == 'granted') {
                     // Add a listener to get smartphone acceleration 
                     // in the XYZ axes (units in m/s^2)
-                       
+
                     window.addEventListener("devicemotion", handleMotionEvent, true);
-                window.setInterval(function () {
-                    if (submitted) {
-                        $("#update").load("/data?u=" + uname + "&x=" + x + "&y=" + y + "&z=" + z);
-                    }
+                    window.setInterval(function () {
+                        if (submitted) {
+                            $("#update").load("/data?u=" + uname + "&x=" + x + "&y=" + y + "&z=" + z);
+                        }
+                    }, 10)
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    window.setInterval(function () {
+                        if (submitted) {
+                            $("#steps").load("/steps?u=" + uname);
+                        }
                     }, 10)
                 }
+                
             });
         }
         else {
@@ -34,7 +41,7 @@
             window.addEventListener("devicemotion", handleMotionEvent, true);
             window.setInterval(function () {
                 if (submitted) {
-                    $("#update").load("/data?u="+uname+"&x=" + x + "&y=" + y + "&z=" + z);
+                    $("#update").load("/data?u=" + uname + "&x=" + x + "&y=" + y + "&z=" + z)
                 }
             }, 10);
 
@@ -57,9 +64,9 @@
 <body>
     Hey bestie <3
     <div id="update"></div>
-    <input type="text" id="uname" name="uname">
+    <div id="steps"></div>
+   <input type="text" id="uname" name="uname">
     <button onclick="submit()">Submit</button>
     <button onclick="clear()">Clear</button>
 </body>
-
 </html>
