@@ -151,6 +151,7 @@ def steps():
         accx = np.array(user[2])
         accy = np.array(user[3])
         accz = np.array(user[4])
+        tim = np.array(user[1])
         tim = np.array(tim)-tim[0]
         steps = filtSignal(accx, accy, accz, tim)[3]
         bpm = 60*steps/(tim[-1]-tim[0])
