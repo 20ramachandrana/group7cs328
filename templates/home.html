@@ -8,6 +8,14 @@
         var z = 0;
         var uname = "";
         var submitted = false;
+        function submit() {
+            if (document.getElementById("uname").value != "") {
+                $("#update").load("/login?u=" + document.getElementById("uname").value);
+                submitted = true;
+                uname = document.getElementById("uname").value;
+                console.log("yay !!!");
+            }
+        } 
         function handleMotionEvent(event) {
 
             x = event.acceleration.x;
@@ -24,16 +32,11 @@
                     window.setInterval(function () {
                         if (submitted) {
                             $("#update").load("/data?u=" + uname + "&x=" + x + "&y=" + y + "&z=" + z);
-                        }
-                    }, 10)
-                    await new Promise(resolve => setTimeout(resolve, 1000));
-                    window.setInterval(function () {
-                        if (submitted) {
                             $("#steps").load("/steps?u=" + uname);
                         }
-                    }, 10)
+                    }, 10);
                 }
-                
+
             });
         }
         else {
@@ -41,19 +44,11 @@
             window.addEventListener("devicemotion", handleMotionEvent, true);
             window.setInterval(function () {
                 if (submitted) {
-                    $("#update").load("/data?u=" + uname + "&x=" + x + "&y=" + y + "&z=" + z)
+                    $("#update").load("/data?u=" + uname + "&x=" + x + "&y=" + y + "&z=" + z);
+                    $("#steps").load("/steps?u=" + uname);
                 }
             }, 10);
-d
         }
-        function submit() {
-            if (document.getElementById("uname").value != "") {
-                $("#update").load("/login?u=" + document.getElementById("uname").value);
-                submitted = true;
-                uname = document.getElementById("uname").value;
-                console.log("yay !!!");
-            }
-        } 
         function clear() {
             $("#update").load("/clear");
             submitted = false;
