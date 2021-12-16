@@ -28,7 +28,7 @@ def filtSignal(x_signal, y_signal, z_signal, timestamps):
         y.append(y_signal[k])
         z.append(z_signal[k])
         accel_time.append(timestamps[k])
-        accel_mag.append(math.sqrt(x[k]**2+y[k]**2+z[k]**2))
+        accel_mag.append(np.sqrt(x[k]**2+y[k]**2+z[k]**2))
 
     for i in range(0, len(accel_mag), buffer_window_size - 1):
         buffer = accel_mag[i:i+buffer_window_size]
