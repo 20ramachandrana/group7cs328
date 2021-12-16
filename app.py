@@ -155,9 +155,11 @@ def steps():
         tim = np.array(tim)-tim[0]
         steps = filtSignal(accx, accy, accz, tim)[3]
         bpm = 60*steps/(tim[-1]-tim[0])
+        song = getSong(bpm)
         con.commit()
         con.close()
-        return "<marquee>Steps: "+str(steps)+"<br> BPM We Search With: "+str(bpm)+"</marquee>"
+
+        return "<p>Steps: "+str(steps)+"<br> BPM We Search With: "+str(bpm)+"Song Recommended: " + song+"</p>"
     else:
         con.commit()
         con.close()
