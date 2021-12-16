@@ -157,7 +157,7 @@ def steps():
         bpm = 60*steps/(tim[-1]-tim[0])
         con.commit()
         con.close()
-        return "<marquee>Steps: "+steps+"<br> BPM We Search With: "+bpm+"</marquee>"
+        return "<marquee>Steps: "+str(steps)+"<br> BPM We Search With: "+str(bpm)+"</marquee>"
     else:
         con.commit()
         con.close()
