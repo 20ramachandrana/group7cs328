@@ -12,7 +12,7 @@ def filtSignal(x_signal, y_signal, z_signal, timestamps):
     sampling_rate = 100
     # nyq = sampling_rate/2
     # cutoff = 3.05/nyq
-    buffer_window_size = 100
+    buffer_window_size = 10
 
     step_locations = []
     step_baseline = []
