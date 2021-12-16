@@ -153,8 +153,8 @@ def steps():
         accz = np.array(user[4])
         tim = np.array(user[1])
         tim = np.array(tim)-tim[0]
-        steps = filtSignal(accx, accy, accz, tim)[3]
-        bpm = 60*10*(steps)/(tim[-1]-tim[0])
+        steps = len(filtSignal(accx, accy, accz, tim)[0])
+        bpm = 60*100*(steps)/(tim[-1]-tim[0])
         song = getSong(bpm)
         con.commit()
         con.close()
