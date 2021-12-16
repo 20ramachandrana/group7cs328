@@ -60,7 +60,7 @@ def filtSignal(x_signal, y_signal, z_signal, timestamps):
             dynamic_threshold = (max+min)/2
 
         for j in range(0, len(filt)-1):
-            if((filt[j+1] < dynamic_threshold) and (filt[j-1] > dynamic_threshold) and accel_mag[j] > dynamic_threshold and (accel_mag[j-1] not in step_locations)):
+            if((filt[j+1] < dynamic_threshold) and (filt[j-1] > dynamic_threshold) and accel_mag[j] > dynamic_threshold): #and (accel_mag[j-1] not in step_locations)):
                 steps += 1
                 step_locations.append(accel_mag[j])
                 step_baseline.append(accel_time[j])
